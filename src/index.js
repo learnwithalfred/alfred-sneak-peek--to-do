@@ -7,24 +7,16 @@ import './style.css';
 import { todoData } from './todoList';
 import { displayTodo, createBook } from './functions';
 const name = document.querySelector('#name');
-
+import initialData from './data';
 window.onload = () => {
-  // const initialTodo = {
-  //   data: [
-  //     { id: 1, name: 'Start working on Webpack project' },
-  //     { id: 2, name: 'Take kids from school' },
-  //   ],
-  // };
-
   todoData.data = JSON.parse(localStorage.getItem('Todos' || '[]'));
 
   if (todoData.data === null) {
-    todoData.data = [];
-  } else {
-    todoData.data = todoData.data;
+    todoData.data = initialData;
   }
 
-  document.querySelector('.todoLength').innerText = todoData.getLength();
+
+  // document.querySelector('.todoLength').innerText = todoData.getLength();
   todoData.data.forEach((todo) => displayTodo(todo));
 };
 

@@ -7,12 +7,12 @@ export const displayTodo = (todo) => {
   const li = document.createElement('li');
   li.classList.add('list-group-item');
   ul.appendChild(li);
-  li.setAttribute('id', todo.id);
+  li.setAttribute('id', todo.index);
 
   const todoDiv = document.createElement('div');
   todoDiv.classList.add('form-check');
   todoDiv.classList.add('todoDiv');
-  todoDiv.setAttribute('id', todo.id);
+  todoDiv.setAttribute('id', todo.index);
   li.appendChild(todoDiv);
 
   const checkedInput = document.createElement('input');
@@ -26,7 +26,7 @@ export const displayTodo = (todo) => {
   checkedInput.setAttribute('for', 'checkbox');
 
   todoDiv.appendChild(textLabel);
-  textLabel.innerText = `${todo.name}`;
+  textLabel.innerText = `${todo.description}`;
 
   const elapseIcon = document.createElement('i');
   elapseIcon.classList.add('fa');
@@ -34,18 +34,16 @@ export const displayTodo = (todo) => {
 
   todoDiv.appendChild(elapseIcon);
 
-
   todoDiv.addEventListener('click', () => {
     todoData.removeTodo(todoDiv.id);
-      const checked = todoDiv.childNodes[0].value;
-      const value = todoDiv.childNodes[1].innerText;
-      console.log(todoDiv.parentNode);
+    // const checked = todoDiv.childNodes[0].value;
+    // const value = todoDiv.childNodes[1].innerText;
   });
 };
 
-export const createBook = (name) => {
-  if (name) {
-    return new Todo(name);
+export const createBook = (description) => {
+  if (description) {
+    return new Todo(description);
   }
   return;
 };
