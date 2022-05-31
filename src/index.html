@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="To-do list is a tool that helps to organize your day. It simply lists the things that you need to do and allows you to mark them as complete. We will build a simple website that allows for doing that, and you will do it using ES6 and Webpack!"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/480px-Wikimedia-logo.png"
+    />
+    <title>Sneak peek: To-do list</title>
+  </head>
+  <body>
+    <section class="card">
+      <div class="card-header">Todo <span class="todoLength"></span></div>
+      <div class="input-group">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          required
+          class="form-control"
+          placeholder="Recipient's username"
+          aria-label="Recipient's username"
+          aria-describedby="basic-addon2"
+        />
+        <span> <i class="fa-solid fa-minimize"></i> </span>
+      </div>
+      <ul class="list-group list-group-flush todo-list"></ul>
+      <div class="card-footer" id="remove-all">
+        <a href="#">Remove all</a>
+      </div>
+    </section>
+  </body>
+</html>

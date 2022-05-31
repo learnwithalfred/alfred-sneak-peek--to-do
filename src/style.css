@@ -1,0 +1,12 @@
+body {
+  background-color: rgb(246, 246, 246);
+}
+
+.card {
+  width: 60%;
+  margin: 3rem auto;
+}
+
+.fa-ellipsis-v {
+  padding: 1rem;
+}
