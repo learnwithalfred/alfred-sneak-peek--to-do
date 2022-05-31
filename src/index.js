@@ -15,19 +15,28 @@ window.onload = () => {
     todoData.data = initialData;
   }
 
-
   // document.querySelector('.todoLength').innerText = todoData.getLength();
   todoData.data.forEach((todo) => displayTodo(todo));
 };
 
-name.addEventListener('keyup', (e) => {
-  if (name.value) {
-    if (e.key === 13 || e.key === 'Enter') {
-      const newTodo = createBook(name.value);
-      todoData.addTodo(newTodo);
-      displayTodo(newTodo);
-      name.value = ''; // set the input field to be null after saving its
-    }
+const saveTodoItem = (todo) => {
+  if (todo) {
+    const newTodo = createBook(todo);
+    todoData.addTodo(newTodo);
+    displayTodo(newTodo);
+    name.value = '';
   }
   return false;
+};
+
+name.addEventListener('keyup', (e) => {
+  if (e.key === 13 || e.key === 'Enter') {
+    saveTodoItem(name.value);
+  }
+});
+
+const submitIcon = document.querySelector('#submit-icon');
+submitIcon.addEventListener('click', () => {
+  console.log('i was clicked');
+  saveTodoItem(name.value);
 });

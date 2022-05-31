@@ -10,3 +10,17 @@ body {
 .fa-ellipsis-v {
   padding: 1rem;
 }
+
+::placeholder {
+  font-style: italic;
+}
+
+.text-input {
+  border: none;
+}
+
+.submit-icon {
+  padding-right: 12px;
+  cursor: pointer;
+  vertical-align: baseline;
+}

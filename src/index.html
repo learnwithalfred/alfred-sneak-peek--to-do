@@ -23,16 +23,21 @@
           name="name"
           id="name"
           required
-          class="form-control"
-          placeholder="Recipient's username"
-          aria-label="Recipient's username"
+          class="form-control text-input"
+          placeholder="Add to your list ..."
+          aria-label="Add to your list"
           aria-describedby="basic-addon2"
         />
-        <span> <i class="fa-solid fa-minimize"></i> </span>
+        <span id="submit-icon">
+          <i
+            class="fa fa-reply align-middle submit-icon"
+            aria-hidden="true"
+          ></i>
+        </span>
       </div>
       <ul class="list-group list-group-flush todo-list"></ul>
-      <div class="card-footer" id="remove-all">
-        <a href="#">Remove all</a>
+      <div class="card-footer text-center" id="remove-all">
+        <span class="text-dark">Clear all completed</span>
       </div>
     </section>
   </body>
