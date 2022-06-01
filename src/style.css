@@ -1,0 +1,32 @@
+body {
+  background-color: rgb(246, 246, 246);
+}
+
+.card {
+  width: 60%;
+  margin: 3rem auto;
+}
+
+::placeholder {
+  font-style: italic;
+}
+
+.text-input {
+  border: none;
+}
+
+.submit-icon {
+  padding-right: 24px;
+  cursor: pointer;
+  vertical-align: baseline;
+}
+
+.todoDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.checkbox {
+  margin-right: 5px;
+}
