@@ -7,10 +7,6 @@ body {
   margin: 3rem auto;
 }
 
-.fa-ellipsis-v {
-  padding: 1rem;
-}
-
 ::placeholder {
   font-style: italic;
 }
@@ -20,7 +16,13 @@ body {
 }
 
 .submit-icon {
-  padding-right: 12px;
+  padding-right: 24px;
   cursor: pointer;
   vertical-align: baseline;
+}
+
+.todoDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
