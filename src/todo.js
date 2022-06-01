@@ -18,11 +18,6 @@ class Todo {
 
   // makes an new li tag
   static #createListItem(text) {
-    // const li = document.createElement('li');
-    // li.classList.add('list-element');
-    // li.textContent = text.description;
-    // return li;
-
     const li = document.createElement('li');
     li.classList.add('list-group-item');
 
@@ -38,10 +33,10 @@ class Todo {
     todoInputContainer.classList.add('display-flex');
     todoDiv.appendChild(todoInputContainer);
 
-    //checkedInput
+    // checkedInput
     const checkedInput = document.createElement('input');
     checkedInput.classList.add('form-check-input');
-    checkedInput.setAttribute('type', 'checkbox'); //set id dynamically
+    checkedInput.setAttribute('type', 'checkbox'); // set id dynamically
     checkedInput.setAttribute('id', 'checkbox');
 
     todoInputContainer.appendChild(checkedInput);
@@ -92,11 +87,9 @@ class Todo {
   }
 
   remove(index) {
-    for (let i = 0; i < this.data.length; i++) {
+    for (let i = 0; i < this.data.length; i += 1) {
       if (this.data[i].index === index) {
-        this.data = this.data.filter(
-          (todo) => parseInt(todo.index) !== parseInt(index)
-        );
+        this.data = this.data.filter((todo) => todo.index !== index);
         this.update();
       }
     }
@@ -104,7 +97,7 @@ class Todo {
   }
 
   toggleComplete(index) {
-    for (let i = 0; i < this.data.length; i++) {
+    for (let i = 0; i < this.data.length; i += 1) {
       if (this.data[i].index === index) {
         this.data[i].completed = true;
         this.update();
