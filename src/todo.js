@@ -1,11 +1,26 @@
+/* eslint-disable no-restricted-syntax */
+
 class Todo {
   constructor(HTMLelement) {
     this.listElement = HTMLelement;
     this.data = [
-      { description: 'yes', complete: false, index: 5467890 },
-      { description: 'nonn', complete: false, index: 234 },
-      { description: 'working nowwwwwww', complete: false, index: 867234 },
+      { description: 'First  Todo  today', complete: false, index: 5467890 },
+      { description: 'This is another todo', complete: false, index: 234 },
+      {
+        description: 'And am going to finish my todo here',
+        complete: false,
+        index: 867234,
+      },
     ];
+  }
+
+  toggleComplete(index) {
+    for (let i = 0; i < this.data.length; i += 1) {
+      if (this.data[i].index === index) {
+        this.data[i].complete = !this.data[i].complete;
+        this.update();
+      }
+    }
   }
 
   getLength() {
@@ -37,7 +52,7 @@ class Todo {
     const checkedInput = document.createElement('input');
     checkedInput.classList.add('form-check-input');
     checkedInput.setAttribute('type', 'checkbox'); // set id dynamically
-    checkedInput.setAttribute('id', 'checkbox');
+    checkedInput.className = 'checkbox';
 
     todoInputContainer.appendChild(checkedInput);
 
@@ -45,14 +60,13 @@ class Todo {
     const textLabel = document.createElement('label');
     textLabel.classList.add('form-check-label');
     checkedInput.setAttribute('for', 'checkbox');
+    checkedInput.setAttribute('id', text.index);
     textLabel.textContent = text.description;
 
     todoInputContainer.appendChild(textLabel);
 
     const iconDiv = document.createElement('div');
     iconDiv.classList.add('icon-div');
-
-    // icon
     const elapseIcon = document.createElement('i');
     elapseIcon.classList.add('fa');
     elapseIcon.classList.add('fa-ellipsis-v');
@@ -94,15 +108,6 @@ class Todo {
       }
     }
     return false;
-  }
-
-  toggleComplete(index) {
-    for (let i = 0; i < this.data.length; i += 1) {
-      if (this.data[i].index === index) {
-        this.data[i].completed = true;
-        this.update();
-      }
-    }
   }
 }
 

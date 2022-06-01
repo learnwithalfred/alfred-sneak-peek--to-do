@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import '../node_modules/@fortawesome/fontawesome-free/js/all.js';
 import './style.css';
-import Todo from './todo';
+import Todo from './todo.js';
 
 const myList = document.querySelector('.todo-list');
 const todoItem = document.getElementById('name');
