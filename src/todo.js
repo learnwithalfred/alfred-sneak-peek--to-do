@@ -1,7 +1,6 @@
 /* eslint-disable radix */
 class Todo {
-  constructor(HTMLelement) {
-    this.listElement = HTMLelement;
+  constructor() {
     this.data = [
       { description: 'First  Todo  today', complete: false, index: 5467890 },
       { description: 'This is another todo', complete: false, index: 234 },
@@ -36,52 +35,37 @@ class Todo {
   }
 
   // makes an new li tag
-  static #createListItem(text) {
-    const li = document.createElement('li');
-    li.classList.add('list-group-item');
+  showData() {
+    const taskList = document.querySelector('.todo-list');
+    const task = this.data;
+    let textContent = '';
 
-    // todo div
-    const todoDiv = document.createElement('div');
-    todoDiv.classList.add('form-check');
-    todoDiv.classList.add('todoDiv');
-    todoDiv.setAttribute('id', text.index);
-    li.appendChild(todoDiv);
+    if (task.length) {
+      task.forEach((item) => {
+        textContent += `<li class="list-group-item">
+          <div class="todoDiv" id="3">
+            <div class="display-flex">
+              <input
+                class="form-check-input checkbox"
+                type="checkbox"
+                name="la"
+                id="123456789"
+              />
+              <label for="123456789" id="76543">${item.description}</label>
+            </div>
+            <div class="icon-div">
+              <i class="fa fa-ellipsis-v"></i>
+            </div>
+          </div>
+        </li>
+    `;
+      });
 
-    // container to space input and icon
-    const todoInputContainer = document.createElement('div');
-    todoInputContainer.classList.add('display-flex');
-    todoDiv.appendChild(todoInputContainer);
-
-    // checkedInput
-    const checkedInput = document.createElement('input');
-    checkedInput.classList.add('form-check-input');
-    checkedInput.setAttribute('type', 'checkbox'); // set id dynamically
-    checkedInput.className = 'checkbox';
-
-    todoInputContainer.appendChild(checkedInput);
-
-    // textLabel
-    const textLabel = document.createElement('label');
-    textLabel.classList.add('form-check-label');
-    checkedInput.setAttribute('for', 'checkbox');
-    checkedInput.setAttribute('id', text.index);
-    textLabel.textContent = text.description;
-
-    todoInputContainer.appendChild(textLabel);
-
-    const iconDiv = document.createElement('div');
-    iconDiv.classList.add('icon-div');
-    iconDiv.setAttribute('id', text.index);
-
-    const elapseIcon = document.createElement('i');
-    elapseIcon.classList.add('fa');
-    elapseIcon.classList.add('fa-ellipsis-v');
-    iconDiv.classList.add('article-btn');
-
-    todoDiv.appendChild(iconDiv);
-    iconDiv.appendChild(elapseIcon);
-
-    return li;
+      taskList.innerHTML = textContent;
+    } else {
+      taskList.innerHTML = 'No data here';
+    }
+    return true;
   }
 
   clearCompleted() {
@@ -93,13 +77,14 @@ class Todo {
   }
 
   update() {
-    while (this.listElement.firstChild) {
-      this.listElement.removeChild(this.listElement.firstChild);
-    }
+    // while (this.listElement.firstChild) {
+    //   this.listElement.removeChild(this.listElement.firstChild);
+    // }
 
-    this.data.forEach((todo) => {
-      this.listElement.appendChild(Todo.#createListItem(todo));
-    });
+    // this.data.forEach((todo) => {
+    //   this.listElement.appendChild(Todo.#showData(todo));
+    // });
+    this.showData();
   }
 
   add(text) {
