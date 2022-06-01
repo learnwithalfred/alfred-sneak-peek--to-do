@@ -7,9 +7,13 @@ import Todo from './todo.js';
 const myList = document.querySelector('.todo-list');
 const todoItem = document.getElementById('name');
 const submitIcon = document.querySelector('#submit-icon');
+const removeBtn = document.querySelector('#remove-all');
+
 const todo = new Todo(myList);
 
-window.onload = () => todo.update();
+window.onload = () => {
+  todo.update();
+};
 
 todoItem.addEventListener('keyup', (e) => {
   if (e.key === 13 || e.key === 'Enter') {
@@ -21,4 +25,8 @@ todoItem.addEventListener('keyup', (e) => {
 submitIcon.addEventListener('click', () => {
   todo.add(todoItem.value);
   todoItem.value = '';
+});
+
+removeBtn.addEventListener('click', () => {
+  todo.clearCompleted();
 });
