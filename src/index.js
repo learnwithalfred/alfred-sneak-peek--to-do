@@ -3,40 +3,23 @@ import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import '../node_modules/@fortawesome/fontawesome-free/js/all.js';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
+import Todo from './todo';
 
-import { todoData } from './todoList';
-import { displayTodo, createBook } from './functions';
-const name = document.querySelector('#name');
-import initialData from './data';
-window.onload = () => {
-  todoData.data = JSON.parse(localStorage.getItem('Todos' || '[]'));
+const myList = document.querySelector('.todo-list');
+const todoItem = document.getElementById('name');
+const submitIcon = document.querySelector('#submit-icon');
+const todo = new Todo(myList);
 
-  if (todoData.data === null) {
-    todoData.data = initialData;
-  }
+window.onload = () => todo.update();
 
-  // document.querySelector('.todoLength').innerText = todoData.getLength();
-  todoData.data.forEach((todo) => displayTodo(todo));
-};
-
-const saveTodoItem = (todo) => {
-  if (todo) {
-    const newTodo = createBook(todo);
-    todoData.addTodo(newTodo);
-    displayTodo(newTodo);
-    name.value = '';
-  }
-  return false;
-};
-
-name.addEventListener('keyup', (e) => {
+todoItem.addEventListener('keyup', (e) => {
   if (e.key === 13 || e.key === 'Enter') {
-    saveTodoItem(name.value);
+    todo.add(todoItem.value);
+    todoItem.value = '';
   }
 });
 
-const submitIcon = document.querySelector('#submit-icon');
 submitIcon.addEventListener('click', () => {
-  console.log('i was clicked');
-  saveTodoItem(name.value);
+  todo.add(todoItem.value);
+  todoItem.value = '';
 });
