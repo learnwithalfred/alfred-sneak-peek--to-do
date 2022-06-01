@@ -9,6 +9,7 @@
 - HTML
 - CSS
 - JAVASCRIPT
+- Webpack
 
 ## Getting Started
 
@@ -28,31 +29,9 @@
 
 ### Install
 
-- Install dev dependencies
-- If you are using vscode text editor, you can install [Live Sass Compiler](https://marketplace.visualstudio.com/items?itemName=ritwickdey.live-sass)
-  - Then update your location of SCSS main file in `vscode` > `settings.json` file.
-  ```
-  "liveSassCompile.settings.formats": [
-    {
-      "format": "expanded",
-      "extensionName": ".css",
-      "savePath": "/dist/css"
-    }
-  ],
-  ```
-- Please make sure you are compiling scss to see the styles working
+- Install dependencies `npm install`
 
-- Run the code using [live server](https://www.google.com/search?client=safari&rls=en&q=live+server&ie=UTF-8&oe=UTF-8)
-
-## Live Demo (if available)
-
-[Live Demo Link](https://livedemo.com)
-
-### Run tests
-
-### Deployment
-
-## Authors
+- The project is build with webpack so you need to start the dev server with the following command `npm run start`
 
 👤 **Alfred Boateng**
 
