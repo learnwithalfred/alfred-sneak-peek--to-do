@@ -1,5 +1,11 @@
 /* eslint-disable radix */
-import { handleDelete, handleToggleComplete } from './functions.js';
+import {
+  handleDelete,
+  handleToggleComplete,
+  handleClearCompleted,
+} from './functions.js';
+
+import handleDisplay from './events.js';
 
 class Todo {
   constructor() {
@@ -48,63 +54,25 @@ class Todo {
 
   toggleComplete(index) {
     const todoList = this.constructor.get();
-
     const newTodoItem = handleToggleComplete(index, todoList);
-    // console.log(newTodoItem, 'home');
     this.constructor.set(newTodoItem);
     this.update();
   }
 
   clearCompleted() {
     const todoList = this.constructor.get();
-
-    const newTodoItems = todoList.filter((item) => {
-      if (!item.complete) return true;
-      return null;
-    });
-
+    const newTodoItems = handleClearCompleted(todoList);
     this.constructor.set(this.constructor.refreshId(newTodoItems));
     this.update();
   }
 
   update() {
-    const taskList = document.querySelector('.todo-list');
     const task = this.constructor.get();
-    let textContent = '';
-
-    if (task.length) {
-      task.forEach((item) => {
-        let showText = '';
-
-        let showIcon = 'far fa-square icon icon-disabled';
-        if (item.complete) {
-          showIcon = 'fas fa-check icon icon-activated';
-          showText = 'class="text-completed"';
-        }
-        textContent += `<li class="list-group-item">
-          <div class="todoDiv" onmousedown="return false">
-            <div class="display-flex toggleCompleteButton" id="${item.index}">
-              <i id="icon${item.index}" class="${showIcon}"></i>
-                <span id="title${item.index}" ${showText}>${item.description}</span>
-            </div>
-
-             <div id="${item.index}" class="deleteButton" title="Delete Task" onmousedown="return false" >
-                <i class="fas fa-trash-alt icon"></i>
-              </div>  
-          </div>
-        </li>
-    `;
-      });
-
-      taskList.innerHTML = textContent;
-    } else {
-      taskList.innerHTML = '<li class="list-group-item">No todo found</li>';
-    }
-
-    const deleteButton = document.querySelectorAll('.deleteButton');
+    handleDisplay(task);
     const toggleCompleteButton = document.querySelectorAll(
-      '.toggleCompleteButton'
+      '.toggleCompleteButton',
     );
+    const deleteButton = document.querySelectorAll('.deleteButton');
 
     deleteButton.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -117,7 +85,6 @@ class Todo {
         this.toggleComplete(btn.getAttribute('id'));
       });
     });
-
     return true;
   }
 }

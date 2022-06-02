@@ -22,4 +22,12 @@ const handleDelete = (index, array) => {
   return array;
 };
 
-export { handleToggleComplete, handleDelete };
+const handleClearCompleted = (array) => {
+  const newTodoItems = array.filter((item) => {
+    if (!item.complete) return true;
+    return null;
+  });
+  return newTodoItems;
+};
+
+export { handleToggleComplete, handleDelete, handleClearCompleted };
