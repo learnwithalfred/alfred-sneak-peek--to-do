@@ -2,24 +2,13 @@
 class Todo {
   constructor() {
     this.data = [
-      { description: 'First  Todo  today', complete: false, index: 5467890 },
-      { description: 'This is another todo', complete: false, index: 234 },
-      {
-        description: 'This is another xxxxxx todo',
-        complete: true,
-        index: 234,
-      },
-      {
-        description: 'And am going to finish my todo here',
-        complete: true,
-        index: 867234,
-      },
+
     ];
   }
 
   toggleComplete(index) {
     for (let i = 0; i < this.data.length; i += 1) {
-      if (this.data[i].index === index) {
+      if (this.data[i].index === parseInt(index)) {
         this.data[i].complete = !this.data[i].complete;
         this.update();
       }
@@ -34,40 +23,6 @@ class Todo {
     return Math.floor(Math.random() * 1000000000);
   }
 
-  // makes an new li tag
-  showData() {
-    const taskList = document.querySelector('.todo-list');
-    const task = this.data;
-    let textContent = '';
-
-    if (task.length) {
-      task.forEach((item) => {
-        textContent += `<li class="list-group-item">
-          <div class="todoDiv" id="3">
-            <div class="display-flex">
-              <input
-                class="form-check-input checkbox"
-                type="checkbox"
-                name="la"
-                id="123456789"
-              />
-              <label for="123456789" id="76543">${item.description}</label>
-            </div>
-            <div class="icon-div">
-              <i class="fa fa-ellipsis-v"></i>
-            </div>
-          </div>
-        </li>
-    `;
-      });
-
-      taskList.innerHTML = textContent;
-    } else {
-      taskList.innerHTML = 'No data here';
-    }
-    return true;
-  }
-
   clearCompleted() {
     this.data = this.data.filter((todo) => {
       if (!todo.complete) return true;
@@ -77,14 +32,55 @@ class Todo {
   }
 
   update() {
-    // while (this.listElement.firstChild) {
-    //   this.listElement.removeChild(this.listElement.firstChild);
-    // }
+    const taskList = document.querySelector('.todo-list');
+    const task = this.data;
+    let textContent = '';
 
-    // this.data.forEach((todo) => {
-    //   this.listElement.appendChild(Todo.#showData(todo));
-    // });
-    this.showData();
+    if (task.length) {
+      task.forEach((item) => {
+        let showText = '';
+
+        let showIcon = 'far fa-square icon icon-disabled';
+        if (item.complete) {
+          showIcon = 'fas fa-check icon icon-activated';
+          showText = 'class="text-completed"';
+        }
+        textContent += `<li class="list-group-item">
+          <div class="todoDiv" onmousedown="return false">
+            <div class="display-flex article-info" id="${item.index}">
+              <i id="icon${item.index}" class="${showIcon}"></i>
+                <span id="title${item.index}" ${showText}>${item.description}</span>
+            </div>
+
+             <div id="${item.index}" class="article-btn" title="Delete Task" onmousedown="return false" >
+                <i class="fas fa-trash-alt icon"></i>
+              </div>  
+          </div>
+        </li>
+    `;
+      });
+
+      taskList.innerHTML = textContent;
+    } else {
+      taskList.innerHTML = 'No data here';
+    }
+
+    const btnsDelete = document.querySelectorAll('.article-btn');
+    const btnsInfo = document.querySelectorAll('.article-info');
+
+    btnsDelete.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        this.remove(btn.getAttribute('id'));
+      });
+    });
+
+    btnsInfo.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        this.toggleComplete(btn.getAttribute('id'));
+      });
+    });
+
+    return true;
   }
 
   add(text) {
@@ -101,14 +97,17 @@ class Todo {
   }
 
   remove(index) {
-    console.log('i was cliked', index, typeof index);
-    for (let i = 0; i < this.data.length; i += 1) {
-      if (this.data[i].index === parseInt(index)) {
-        this.data = this.data.filter((todo) => todo.index !== index);
-        this.update();
-      }
-    }
-    return false;
+    this.data = this.data.filter((item) => {
+      if (Number(index) !== item.index) return true;
+      return null;
+    });
+    // for (let i = 0; i < this.data.length; i += 1) {
+    //   if (this.data[i].index === parseInt(index)) {
+    //     this.data = this.data.filter((todo) => todo.index !== index);
+    //     this.update();
+    //   }
+    // }
+    this.update();
   }
 }
 
