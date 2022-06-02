@@ -1,11 +1,19 @@
 /* eslint-disable radix */
+import {
+  handleDelete,
+  handleToggleComplete,
+  handleClearCompleted,
+} from './functions.js';
+
+import handleDisplay from './events.js';
+
 class Todo {
   constructor() {
     return null;
   }
 
   static get() {
-    const todoList = JSON.parse(localStorage.getItem('todo'));
+    const todoList = JSON.parse(localStorage.getItem('todoList'));
     if (todoList) {
       return todoList;
     }
@@ -13,7 +21,7 @@ class Todo {
   }
 
   static set(todoItem) {
-    localStorage.setItem('todo', JSON.stringify(todoItem));
+    localStorage.setItem('todoList', JSON.stringify(todoItem));
   }
 
   static refreshId(todoArr) {
@@ -38,82 +46,33 @@ class Todo {
   }
 
   remove(index) {
-    if (index) {
-      const todoList = this.constructor.get();
-
-      const selectedTask = todoList.filter((item) => {
-        if (Number(index) !== item.index) return true;
-        return null;
-      });
-      this.constructor.set(this.constructor.refreshId(selectedTask));
-
-      this.update();
-    }
+    const todoList = this.constructor.get();
+    const selectedTask = handleDelete(index, todoList);
+    this.constructor.set(this.constructor.refreshId(selectedTask));
+    this.update();
   }
 
   toggleComplete(index) {
     const todoList = this.constructor.get();
-
-    const newTodoItem = todoList.filter((item) => {
-      if (item.index === parseInt(index)) {
-        item.complete = !item.complete;
-      }
-      return item;
-    });
+    const newTodoItem = handleToggleComplete(index, todoList);
     this.constructor.set(newTodoItem);
     this.update();
   }
 
   clearCompleted() {
     const todoList = this.constructor.get();
-
-    const newTodoItems = todoList.filter((item) => {
-      if (!item.complete) return true;
-      return null;
-    });
-
+    const newTodoItems = handleClearCompleted(todoList);
     this.constructor.set(this.constructor.refreshId(newTodoItems));
     this.update();
   }
 
   update() {
-    const taskList = document.querySelector('.todo-list');
     const task = this.constructor.get();
-    let textContent = '';
-
-    if (task.length) {
-      task.forEach((item) => {
-        let showText = '';
-
-        let showIcon = 'far fa-square icon icon-disabled';
-        if (item.complete) {
-          showIcon = 'fas fa-check icon icon-activated';
-          showText = 'class="text-completed"';
-        }
-        textContent += `<li class="list-group-item">
-          <div class="todoDiv" onmousedown="return false">
-            <div class="display-flex toggleCompleteButton" id="${item.index}">
-              <i id="icon${item.index}" class="${showIcon}"></i>
-                <span id="title${item.index}" ${showText}>${item.description}</span>
-            </div>
-
-             <div id="${item.index}" class="deleteButton" title="Delete Task" onmousedown="return false" >
-                <i class="fas fa-trash-alt icon"></i>
-              </div>  
-          </div>
-        </li>
-    `;
-      });
-
-      taskList.innerHTML = textContent;
-    } else {
-      taskList.innerHTML = '<li class="list-group-item">No todo found</li>';
-    }
-
-    const deleteButton = document.querySelectorAll('.deleteButton');
+    handleDisplay(task);
     const toggleCompleteButton = document.querySelectorAll(
       '.toggleCompleteButton',
     );
+    const deleteButton = document.querySelectorAll('.deleteButton');
 
     deleteButton.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -126,7 +85,6 @@ class Todo {
         this.toggleComplete(btn.getAttribute('id'));
       });
     });
-
     return true;
   }
 }
