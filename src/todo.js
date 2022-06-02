@@ -112,7 +112,7 @@ class Todo {
 
     const deleteButton = document.querySelectorAll('.deleteButton');
     const toggleCompleteButton = document.querySelectorAll(
-      '.toggleCompleteButton'
+      '.toggleCompleteButton',
     );
 
     deleteButton.forEach((btn) => {
