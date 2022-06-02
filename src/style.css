@@ -35,10 +35,10 @@ body {
 .text-completed {
   opacity: 0.6;
   text-decoration: line-through;
-  color: #213b3b;
+  color: #020253;
 }
 
 .icon-activated {
-  color: rgb(255, 99, 71);
+  color: rgb(255, 27, 202);
   opacity: 1;
 }

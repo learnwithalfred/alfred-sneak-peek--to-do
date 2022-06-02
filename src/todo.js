@@ -1,39 +1,84 @@
 /* eslint-disable radix */
 class Todo {
   constructor() {
-    this.data = [
-
-    ];
+    return null;
   }
 
-  toggleComplete(index) {
-    for (let i = 0; i < this.data.length; i += 1) {
-      if (this.data[i].index === parseInt(index)) {
-        this.data[i].complete = !this.data[i].complete;
-        this.update();
-      }
+  static get() {
+    const todoList = JSON.parse(localStorage.getItem('todo'));
+    if (todoList) {
+      return todoList;
+    }
+    return [];
+  }
+
+  static set(todoItem) {
+    localStorage.setItem('todo', JSON.stringify(todoItem));
+  }
+
+  static refreshId(todoArr) {
+    for (let i = 0; i < todoArr.length; i += 1) todoArr[i].index = i;
+    return todoArr;
+  }
+
+  add(text) {
+    if (text) {
+      const taskMem = this.constructor.get();
+      const newTodo = {
+        description: text,
+        completed: false,
+        index: taskMem.length,
+      };
+      taskMem.push(newTodo);
+
+      this.constructor.set(taskMem);
+      return this.update();
+    }
+    return false;
+  }
+
+  remove(index) {
+    if (index) {
+      const todoList = this.constructor.get();
+
+      const selectedTask = todoList.filter((item) => {
+        if (Number(index) !== item.index) return true;
+        return null;
+      });
+      this.constructor.set(this.constructor.refreshId(selectedTask));
+
+      this.update();
     }
   }
 
-  getLength() {
-    return this.data.length;
-  }
+  toggleComplete(index) {
+    const todoList = this.constructor.get();
 
-  static #generateID() {
-    return Math.floor(Math.random() * 1000000000);
+    const newTodoItem = todoList.filter((item) => {
+      if (item.index === parseInt(index)) {
+        item.complete = !item.complete;
+      }
+      return item;
+    });
+    this.constructor.set(newTodoItem);
+    this.update();
   }
 
   clearCompleted() {
-    this.data = this.data.filter((todo) => {
-      if (!todo.complete) return true;
+    const todoList = this.constructor.get();
+
+    const newTodoItems = todoList.filter((item) => {
+      if (!item.complete) return true;
       return null;
     });
+
+    this.constructor.set(this.constructor.refreshId(newTodoItems));
     this.update();
   }
 
   update() {
     const taskList = document.querySelector('.todo-list');
-    const task = this.data;
+    const task = this.constructor.get();
     let textContent = '';
 
     if (task.length) {
@@ -47,12 +92,12 @@ class Todo {
         }
         textContent += `<li class="list-group-item">
           <div class="todoDiv" onmousedown="return false">
-            <div class="display-flex article-info" id="${item.index}">
+            <div class="display-flex toggleCompleteButton" id="${item.index}">
               <i id="icon${item.index}" class="${showIcon}"></i>
                 <span id="title${item.index}" ${showText}>${item.description}</span>
             </div>
 
-             <div id="${item.index}" class="article-btn" title="Delete Task" onmousedown="return false" >
+             <div id="${item.index}" class="deleteButton" title="Delete Task" onmousedown="return false" >
                 <i class="fas fa-trash-alt icon"></i>
               </div>  
           </div>
@@ -62,52 +107,27 @@ class Todo {
 
       taskList.innerHTML = textContent;
     } else {
-      taskList.innerHTML = 'No data here';
+      taskList.innerHTML = '<li class="list-group-item">No todo found</li>';
     }
 
-    const btnsDelete = document.querySelectorAll('.article-btn');
-    const btnsInfo = document.querySelectorAll('.article-info');
+    const deleteButton = document.querySelectorAll('.deleteButton');
+    const toggleCompleteButton = document.querySelectorAll(
+      '.toggleCompleteButton'
+    );
 
-    btnsDelete.forEach((btn) => {
+    deleteButton.forEach((btn) => {
       btn.addEventListener('click', () => {
         this.remove(btn.getAttribute('id'));
       });
     });
 
-    btnsInfo.forEach((btn) => {
+    toggleCompleteButton.forEach((btn) => {
       btn.addEventListener('click', () => {
         this.toggleComplete(btn.getAttribute('id'));
       });
     });
 
     return true;
-  }
-
-  add(text) {
-    if (text) {
-      this.data.push({
-        description: text,
-        completed: false,
-        index: Todo.#generateID(),
-      });
-
-      return this.update();
-    }
-    return false;
-  }
-
-  remove(index) {
-    this.data = this.data.filter((item) => {
-      if (Number(index) !== item.index) return true;
-      return null;
-    });
-    // for (let i = 0; i < this.data.length; i += 1) {
-    //   if (this.data[i].index === parseInt(index)) {
-    //     this.data = this.data.filter((todo) => todo.index !== index);
-    //     this.update();
-    //   }
-    // }
-    this.update();
   }
 }
 
