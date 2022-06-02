@@ -4,12 +4,15 @@ import '../node_modules/@fortawesome/fontawesome-free/js/all.js';
 import './style.css';
 import Todo from './todo.js';
 
-const myList = document.querySelector('.todo-list');
 const todoItem = document.getElementById('name');
 const submitIcon = document.querySelector('#submit-icon');
-const todo = new Todo(myList);
+const removeBtn = document.querySelector('#remove-all');
 
-window.onload = () => todo.update();
+const todo = new Todo();
+
+window.onload = () => {
+  todo.update();
+};
 
 todoItem.addEventListener('keyup', (e) => {
   if (e.key === 13 || e.key === 'Enter') {
@@ -21,4 +24,8 @@ todoItem.addEventListener('keyup', (e) => {
 submitIcon.addEventListener('click', () => {
   todo.add(todoItem.value);
   todoItem.value = '';
+});
+
+removeBtn.addEventListener('click', () => {
+  todo.clearCompleted();
 });

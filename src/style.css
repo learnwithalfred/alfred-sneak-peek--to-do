@@ -13,6 +13,7 @@ body {
 
 .text-input {
   border: none;
+  outline: none;
 }
 
 .submit-icon {
@@ -29,4 +30,15 @@ body {
 
 .checkbox {
   margin-right: 5px;
+}
+
+.text-completed {
+  opacity: 0.6;
+  text-decoration: line-through;
+  color: #020253;
+}
+
+.icon-activated {
+  color: rgb(255, 27, 202);
+  opacity: 1;
 }

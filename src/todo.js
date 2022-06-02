@@ -1,113 +1,133 @@
-/* eslint-disable no-restricted-syntax */
-
+/* eslint-disable radix */
 class Todo {
-  constructor(HTMLelement) {
-    this.listElement = HTMLelement;
-    this.data = [
-      { description: 'First  Todo  today', complete: false, index: 5467890 },
-      { description: 'This is another todo', complete: false, index: 234 },
-      {
-        description: 'And am going to finish my todo here',
-        complete: false,
-        index: 867234,
-      },
-    ];
+  constructor() {
+    return null;
   }
 
-  toggleComplete(index) {
-    for (let i = 0; i < this.data.length; i += 1) {
-      if (this.data[i].index === index) {
-        this.data[i].complete = !this.data[i].complete;
-        this.update();
-      }
+  static get() {
+    const todoList = JSON.parse(localStorage.getItem('todo'));
+    if (todoList) {
+      return todoList;
     }
+    return [];
   }
 
-  getLength() {
-    return this.data.length;
+  static set(todoItem) {
+    localStorage.setItem('todo', JSON.stringify(todoItem));
   }
 
-  static #generateID() {
-    return Math.floor(Math.random() * 1000000000);
-  }
-
-  // makes an new li tag
-  static #createListItem(text) {
-    const li = document.createElement('li');
-    li.classList.add('list-group-item');
-
-    // todo div
-    const todoDiv = document.createElement('div');
-    todoDiv.classList.add('form-check');
-    todoDiv.classList.add('todoDiv');
-    todoDiv.setAttribute('id', text.index);
-    li.appendChild(todoDiv);
-
-    // container to space input and icon
-    const todoInputContainer = document.createElement('div');
-    todoInputContainer.classList.add('display-flex');
-    todoDiv.appendChild(todoInputContainer);
-
-    // checkedInput
-    const checkedInput = document.createElement('input');
-    checkedInput.classList.add('form-check-input');
-    checkedInput.setAttribute('type', 'checkbox'); // set id dynamically
-    checkedInput.className = 'checkbox';
-
-    todoInputContainer.appendChild(checkedInput);
-
-    // textLabel
-    const textLabel = document.createElement('label');
-    textLabel.classList.add('form-check-label');
-    checkedInput.setAttribute('for', 'checkbox');
-    checkedInput.setAttribute('id', text.index);
-    textLabel.textContent = text.description;
-
-    todoInputContainer.appendChild(textLabel);
-
-    const iconDiv = document.createElement('div');
-    iconDiv.classList.add('icon-div');
-    const elapseIcon = document.createElement('i');
-    elapseIcon.classList.add('fa');
-    elapseIcon.classList.add('fa-ellipsis-v');
-
-    todoDiv.appendChild(iconDiv);
-    iconDiv.appendChild(elapseIcon);
-
-    return li;
-  }
-
-  update() {
-    while (this.listElement.firstChild) {
-      this.listElement.removeChild(this.listElement.firstChild);
-    }
-
-    for (const todo of this.data) {
-      this.listElement.appendChild(Todo.#createListItem(todo));
-    }
+  static refreshId(todoArr) {
+    for (let i = 0; i < todoArr.length; i += 1) todoArr[i].index = i;
+    return todoArr;
   }
 
   add(text) {
     if (text) {
-      this.data.push({
+      const taskMem = this.constructor.get();
+      const newTodo = {
         description: text,
         completed: false,
-        index: Todo.#generateID(),
-      });
+        index: taskMem.length,
+      };
+      taskMem.push(newTodo);
 
+      this.constructor.set(taskMem);
       return this.update();
     }
     return false;
   }
 
   remove(index) {
-    for (let i = 0; i < this.data.length; i += 1) {
-      if (this.data[i].index === index) {
-        this.data = this.data.filter((todo) => todo.index !== index);
-        this.update();
-      }
+    if (index) {
+      const todoList = this.constructor.get();
+
+      const selectedTask = todoList.filter((item) => {
+        if (Number(index) !== item.index) return true;
+        return null;
+      });
+      this.constructor.set(this.constructor.refreshId(selectedTask));
+
+      this.update();
     }
-    return false;
+  }
+
+  toggleComplete(index) {
+    const todoList = this.constructor.get();
+
+    const newTodoItem = todoList.filter((item) => {
+      if (item.index === parseInt(index)) {
+        item.complete = !item.complete;
+      }
+      return item;
+    });
+    this.constructor.set(newTodoItem);
+    this.update();
+  }
+
+  clearCompleted() {
+    const todoList = this.constructor.get();
+
+    const newTodoItems = todoList.filter((item) => {
+      if (!item.complete) return true;
+      return null;
+    });
+
+    this.constructor.set(this.constructor.refreshId(newTodoItems));
+    this.update();
+  }
+
+  update() {
+    const taskList = document.querySelector('.todo-list');
+    const task = this.constructor.get();
+    let textContent = '';
+
+    if (task.length) {
+      task.forEach((item) => {
+        let showText = '';
+
+        let showIcon = 'far fa-square icon icon-disabled';
+        if (item.complete) {
+          showIcon = 'fas fa-check icon icon-activated';
+          showText = 'class="text-completed"';
+        }
+        textContent += `<li class="list-group-item">
+          <div class="todoDiv" onmousedown="return false">
+            <div class="display-flex toggleCompleteButton" id="${item.index}">
+              <i id="icon${item.index}" class="${showIcon}"></i>
+                <span id="title${item.index}" ${showText}>${item.description}</span>
+            </div>
+
+             <div id="${item.index}" class="deleteButton" title="Delete Task" onmousedown="return false" >
+                <i class="fas fa-trash-alt icon"></i>
+              </div>  
+          </div>
+        </li>
+    `;
+      });
+
+      taskList.innerHTML = textContent;
+    } else {
+      taskList.innerHTML = '<li class="list-group-item">No todo found</li>';
+    }
+
+    const deleteButton = document.querySelectorAll('.deleteButton');
+    const toggleCompleteButton = document.querySelectorAll(
+      '.toggleCompleteButton',
+    );
+
+    deleteButton.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        this.remove(btn.getAttribute('id'));
+      });
+    });
+
+    toggleCompleteButton.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        this.toggleComplete(btn.getAttribute('id'));
+      });
+    });
+
+    return true;
   }
 }
 
