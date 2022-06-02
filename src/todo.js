@@ -1,11 +1,13 @@
 /* eslint-disable radix */
+import { handleDelete, handleToggleComplete } from './functions.js';
+
 class Todo {
   constructor() {
     return null;
   }
 
   static get() {
-    const todoList = JSON.parse(localStorage.getItem('todo'));
+    const todoList = JSON.parse(localStorage.getItem('todoList'));
     if (todoList) {
       return todoList;
     }
@@ -13,7 +15,7 @@ class Todo {
   }
 
   static set(todoItem) {
-    localStorage.setItem('todo', JSON.stringify(todoItem));
+    localStorage.setItem('todoList', JSON.stringify(todoItem));
   }
 
   static refreshId(todoArr) {
@@ -38,28 +40,17 @@ class Todo {
   }
 
   remove(index) {
-    if (index) {
-      const todoList = this.constructor.get();
-
-      const selectedTask = todoList.filter((item) => {
-        if (Number(index) !== item.index) return true;
-        return null;
-      });
-      this.constructor.set(this.constructor.refreshId(selectedTask));
-
-      this.update();
-    }
+    const todoList = this.constructor.get();
+    const selectedTask = handleDelete(index, todoList);
+    this.constructor.set(this.constructor.refreshId(selectedTask));
+    this.update();
   }
 
   toggleComplete(index) {
     const todoList = this.constructor.get();
 
-    const newTodoItem = todoList.filter((item) => {
-      if (item.index === parseInt(index)) {
-        item.complete = !item.complete;
-      }
-      return item;
-    });
+    const newTodoItem = handleToggleComplete(index, todoList);
+    // console.log(newTodoItem, 'home');
     this.constructor.set(newTodoItem);
     this.update();
   }
@@ -112,7 +103,7 @@ class Todo {
 
     const deleteButton = document.querySelectorAll('.deleteButton');
     const toggleCompleteButton = document.querySelectorAll(
-      '.toggleCompleteButton',
+      '.toggleCompleteButton'
     );
 
     deleteButton.forEach((btn) => {
