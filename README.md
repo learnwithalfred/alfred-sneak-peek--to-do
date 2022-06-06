@@ -33,6 +33,10 @@
 
 - The project is build with webpack so you need to start the dev server with the following command `npm run start`
 
+### Live Demo
+
+[Live Demo Link](https://learnwithalfred.github.io/alfred-sneak-peek--to-do/)
+
 👤 **Alfred Boateng**
 
 - GitHub: [@learnwithalfred](https://github.com/learnwithalfred)
