@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="To-do list is a tool that helps to organize your day. It simply lists the things that you need to do and allows you to mark them as complete. We will build a simple website that allows for doing that, and you will do it using ES6 and Webpack!"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/480px-Wikimedia-logo.png"
+    />
+    <title class="text-center my-3">Sneak peek: To-do list</title>
+  <script defer src="/runtime.975caff4.js"></script><script defer src="/main.975caff4.js"></script></head>
+  <body>
+    <h1 class="text-center my-4">Sneak peek: To-do list</h1>
+    <div class="card">
+      <div class="card-header">Todo <span class="todoLength"></span></div>
+      <div class="input-group">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          required
+          class="form-control text-input"
+          placeholder="Add to your list ..."
+          aria-label="Add to your list"
+        />
+        <span id="submit-icon">
+          <i
+            class="fa fa-reply align-middle submit-icon"
+            aria-hidden="true"
+          ></i>
+        </span>
+      </div>
+
+      <ul class="list-group list-group-flush todo-list"></ul>
+      <div class="card-footer text-center" id="remove-all">
+        <span class="text-dark">Clear all completed</span>
+      </div>
+    </div>
+  </body>
+</html>
