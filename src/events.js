@@ -19,7 +19,7 @@ const handleDisplay = (array) => {
                 <span id="title${item.index}" ${showText}>${item.description}</span>
             </div>
 
-             <div id="${item.index}" class="deleteButton" title="Delete Task" onmousedown="return false" >
+             <div id="delete${item.index}" class="deleteButton" title="Delete Task" onmousedown="return false" >
                 <i class="fas fa-trash-alt icon"></i>
               </div>  
           </div>

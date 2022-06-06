@@ -14,7 +14,7 @@ const handleToggleComplete = (index, array) => {
 const handleDelete = (index, array) => {
   if (index) {
     const selectedTask = array.filter((item) => {
-      if (Number(index) !== item.index) return true;
+      if (parseInt(index.replace(/[^0-9]/g, '')) !== item.index) return true;
       return null;
     });
     return selectedTask;
