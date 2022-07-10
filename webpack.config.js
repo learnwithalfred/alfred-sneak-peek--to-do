@@ -15,10 +15,9 @@ module.exports = {
   output: {
     filename: '[name].[hash:8].js',
     sourceMapFilename: '[name].[hash:8].map',
-    chunkFilename: '[id].[hash:8].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    publicPath: '/',
+    publicPath: '/dist',
   },
   optimization: {
     runtimeChunk: 'single',
@@ -28,6 +27,10 @@ module.exports = {
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
       },
       {
         test: /\.(svg|eot|woff|woff2|ttf)$/,
