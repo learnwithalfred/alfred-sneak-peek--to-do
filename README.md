@@ -1,6 +1,6 @@
-![Sneak Peak ToDo List](image-placeholder.png)
-
 # Sneak Peak ToDo List
+
+![Sneak Peak ToDo List](./image-placeholder.png)
 
 > Todo list build with webpack.
 
