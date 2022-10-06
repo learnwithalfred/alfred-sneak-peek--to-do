@@ -13,6 +13,7 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.26.0",
     "file-loader": "^6.2.0",
+    "gh-pages": "^4.0.0",
     "hint": "^6.2.0",
     "html-loader": "^3.1.2",
     "html-webpack-plugin": "^5.5.0",
@@ -27,22 +28,18 @@
     "webpack-dev-server": "^4.9.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "build": "webpack",
     "start": "webpack serve --open",
     "watch": "webpack --watch"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/learnwithalfred/alfred-sneak-peek--to-do.git"
+    "type": "git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/learnwithalfred/alfred-sneak-peek--to-do/issues"
-  },
-  "homepage": "https://github.com/learnwithalfred/alfred-sneak-peek--to-do#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.1.1",
     "bootstrap": "^5.2.0-beta1"
